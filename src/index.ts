@@ -15,11 +15,26 @@ const userService = new UserService();
 
 // 監測連接
 io.on('connection', (socket) => {
-  socket.emit('join', 'welcome');
+  socket.on("join", ({userName, roomName}: {userName: string, roomName: string}) => {
+    const userData = userService.userDataInfoHandler(
+      socket.id,
+      userName,
+      roomName
+    )
+    userService.addUser(userData);
+    io.emit("join", `${userName} 加入了 ${roomName}`);
+  })
 
   socket.on("chat", (msg) => {
-    console.log("server chat:", msg);
     io.emit("chat", msg);
+  })
+
+  socket.on("disconnect", () => {
+    const userData = userService.getUser(socket.id);
+    const userName = userData?.userName;
+    if (userName) {
+      io.emit("leave", `${userData.userName} 離開聊天室`);
+    }
   })
 });
 
@@ -29,8 +44,6 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   prodServer(app);
 }
-
-console.log('server side', name);
 
 server.listen(port, () => {
   console.log(`The application is running on port ${port}.`);

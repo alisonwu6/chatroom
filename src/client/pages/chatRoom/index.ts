@@ -11,6 +11,8 @@ if (!userName || !roomName) {
 
 // 建立 node server 連接
 const clientInfo = io()
+clientInfo.emit("join", {userName, roomName});
+
 const textInput = document.getElementById("textInput") as HTMLInputElement;
 const submitBtn = document.getElementById("submitBtn") as HTMLButtonElement;
 const chatBoard = document.getElementById("chatBoard") as HTMLDivElement;
@@ -39,6 +41,16 @@ function msgHandler(msg: string) {
   chatBoard.scrollTop = chatBoard.scrollHeight;
 }
 
+function roomMsgHandler(msg: string) {
+  const divBox = document.createElement("div");
+  divBox.classList.add("flex", "justify-center", "mb-4", "items-center")
+  divBox.innerHTML = `
+    <p class="text-gray-700 text-sm">${msg}</p>
+  `
+  chatBoard.append(divBox);
+  chatBoard.scrollTop = chatBoard.scrollHeight;
+}
+
 submitBtn.addEventListener("click", () => {
   const textValue = textInput.value;
   clientInfo.emit("chat", textValue);
@@ -50,9 +62,14 @@ backBtn.addEventListener("click", () => {
 
 clientInfo.on("join", (msg) => {
   console.log("msg", msg);
+  roomMsgHandler(msg);
 })
 
 clientInfo.on("chat", (msg) => {
-  console.log("client chat:", msg);
   msgHandler(msg);
+})
+
+clientInfo.on("leave", (msg) => {
+  console.log("client leave:", msg);
+  roomMsgHandler(msg);
 })
