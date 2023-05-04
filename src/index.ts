@@ -14,6 +14,11 @@ const io = new Server(server);
 // 監測連接
 io.on('connection', (socket) => {
   socket.emit('join', 'welcome');
+
+  socket.on("chat", (msg) => {
+    console.log("server chat:", msg);
+    io.emit("chat", msg);
+  })
 });
 
 // 執行npm run dev本地開發 or 執行npm run start部署後啟動線上伺服器

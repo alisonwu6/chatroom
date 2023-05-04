@@ -12,7 +12,7 @@
       <header
         class="w-full h-[56px] px-4 box-border flex justify-between items-center"
       >
-        <button class="text-white">
+        <button id="backBtn" class="text-white">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-[40px] w-[40px]"
@@ -26,14 +26,15 @@
             />
           </svg>
         </button>
-        <p class="text-white font-extrabold">ROOM 1</p>
+        <p id="headerRoomName" class="text-white font-extrabold"></p>
         <div class="h-[40px] w-[40px]"></div>
       </header>
 
       <div
         class="mt-[10px] box-border px-4 h-[calc(100vh-156px)] overflow-y-scroll"
+        id="chatBoard"
       >
-        <div class="flex justify-start mb-4 items-end">
+        <!-- <div class="flex justify-start mb-4 items-end">
           <div>
             <p class="text-xs text-gray-700 mb-1">Wu</p>
             <p
@@ -44,11 +45,11 @@
           </div>
 
           <p class="text-xs text-gray-700 ml-4">00:00</p>
-        </div>
+        </div> -->
 
         <!-- right side -->
 
-        <div class="flex justify-end mb-4 items-end">
+        <!-- <div class="flex justify-end mb-4 items-end">
           <p class="text-xs text-gray-700 mr-4">00:00</p>
 
           <div>
@@ -59,11 +60,11 @@
               嗨嗨嗨！
             </p>
           </div>
-        </div>
+        </div> -->
 
-        <div class="flex justify-center mb-4 items-center">
+        <!-- <div class="flex justify-center mb-4 items-center">
           <p class="text-gray-700 text-sm">Wu joined the room</p>
-        </div>
+        </div> -->
       </div>
 
       <div class="flex px-[20px] py-[20px]">
@@ -71,10 +72,11 @@
           type="text"
           class="bg-gray-700 w-full h-[40px] rounded-full box-border mr-4 text-white"
           name=""
-          id=""
+          id="textInput"
         />
         <button
           class="w-[50px] h-[40px] rounded-md flex justify-center items-center"
+          id="submitBtn"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
