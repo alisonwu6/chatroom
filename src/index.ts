@@ -1,8 +1,9 @@
-import devServer from './server/dev';
-import prodServer from './server/prod';
+import devServer from '@/server/dev';
+import prodServer from '@/server/prod';
 import express from 'express';
 import { Server } from 'socket.io';
 import http from 'http';
+import UserService from '@/service/UserService';
 
 import { name } from '@/utils';
 
@@ -10,6 +11,7 @@ const port = 3000;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+const userService = new UserService();
 
 // 監測連接
 io.on('connection', (socket) => {
