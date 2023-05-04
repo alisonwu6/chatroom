@@ -21,8 +21,10 @@ io.on('connection', (socket) => {
       userName,
       roomName
     )
+    // `socket.join` must combine with `socket.broadcast.to`
+    socket.join(userData.roomName);
     userService.addUser(userData);
-    io.emit("join", `${userName} 加入了 ${roomName}`);
+    socket.broadcast.to(userData.roomName).emit("join", `${userName} 加入了 ${roomName}`);
   })
 
   socket.on("chat", (msg) => {
@@ -33,7 +35,7 @@ io.on('connection', (socket) => {
     const userData = userService.getUser(socket.id);
     const userName = userData?.userName;
     if (userName) {
-      io.emit("leave", `${userData.userName} 離開聊天室`);
+      socket.broadcast.to(userData.roomName).emit("leave", `${userData.userName} 離開 ${userData.roomName} 聊天室`);
     }
   })
 });
